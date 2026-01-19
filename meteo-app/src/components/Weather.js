@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Weather.css';
 
-function Weather() {
+function Weather({ city = 'Paris' }) {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,13 +14,12 @@ function Weather() {
 
       try {
         const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-        const city = 'Paris';
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=fr`;
 
         const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error('Ville introuvable');
+          throw new Error(`Ville "${city}" introuvable. Vérifiez l'orthographe.`);
         }
 
         const data = await response.json();
@@ -33,7 +32,7 @@ function Weather() {
     };
 
     fetchWeather();
-  }, []); // Tableau vide : exécuté une seule fois au montage
+  }, [city]); // Se déclenche à chaque changement de ville
 
   // Affichage pendant le chargement
   if (loading) {

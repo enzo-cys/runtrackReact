@@ -1,7 +1,15 @@
+import { useState } from 'react';
 import './App.css';
+import SearchBar from './components/SearchBar';
 import Weather from './components/Weather';
 
 function App() {
+  const [searchedCity, setSearchedCity] = useState('Paris');
+
+  const handleSearch = (city) => {
+    setSearchedCity(city);
+  };
+
   return (
     <main className="app-shell">
       <section className="app-header">
@@ -14,7 +22,8 @@ function App() {
       </section>
 
       <section className="weather-section">
-        <Weather />
+        <SearchBar onSearch={handleSearch} />
+        <Weather city={searchedCity} />
       </section>
     </main>
   );
