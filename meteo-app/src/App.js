@@ -2,22 +2,20 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+    <main className="app-shell">
+      <section className="app-header">
+        <p className="eyebrow">Application météo</p>
+        <h1>Météos</h1>
+        <p className="lede">
+          Recherchez une ville, consultez les conditions actuelles et gardez vos
+          favoris sous la main.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      </section>
+
+      <section className="placeholder">
+       
+      </section>
+    </main>
   );
 }
 
