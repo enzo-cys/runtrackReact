@@ -1,19 +1,20 @@
 import './App.css';
+import Weather from './components/Weather';
 
 function App() {
   return (
     <main className="app-shell">
       <section className="app-header">
         <p className="eyebrow">Application météo</p>
-        <h1>Météos</h1>
+        <h1>Météo</h1>
         <p className="lede">
           Recherchez une ville, consultez les conditions actuelles et gardez vos
           favoris sous la main.
         </p>
       </section>
 
-      <section className="placeholder">
-       
+      <section className="weather-section">
+        <Weather />
       </section>
     </main>
   );
