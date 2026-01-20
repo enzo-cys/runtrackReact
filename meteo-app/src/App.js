@@ -2,11 +2,16 @@ import { useState } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import Weather from './components/Weather';
+import Favorites from './components/Favorites';
 
 function App() {
   const [searchedCity, setSearchedCity] = useState('Paris');
 
   const handleSearch = (city) => {
+    setSearchedCity(city);
+  };
+
+  const handleSelectFavorite = (city) => {
     setSearchedCity(city);
   };
 
@@ -24,6 +29,10 @@ function App() {
       <section className="weather-section">
         <SearchBar onSearch={handleSearch} />
         <Weather city={searchedCity} />
+      </section>
+
+      <section className="weather-section">
+        <Favorites onSelectCity={handleSelectFavorite} currentCity={searchedCity} />
       </section>
     </main>
   );

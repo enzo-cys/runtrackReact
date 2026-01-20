@@ -1,10 +1,31 @@
 import { useState, useEffect } from 'react';
 import './Weather.css';
+import { addFavoriteToStorage, getFavoritesFromStorage } from './Favorites';
 
 function Weather({ city = 'Paris' }) {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    // Vérifier si la ville actuelle est dans les favoris (normalized)
+    const favorites = getFavoritesFromStorage();
+    const normalizedCity = city.toLowerCase().trim();
+    setIsFavorite(favorites.includes(normalizedCity));
+  }, [city]);
+
+  // Écouter les changements de favoris depuis Favorites
+  useEffect(() => {
+    const handleFavoritesUpdated = () => {
+      const favorites = getFavoritesFromStorage();
+      const normalizedCity = city.toLowerCase().trim();
+      setIsFavorite(favorites.includes(normalizedCity));
+    };
+
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdated);
+    return () => window.removeEventListener('favoritesUpdated', handleFavoritesUpdated);
+  }, [city]);
 
   useEffect(() => {
     // Fonction pour récupérer les données météo
@@ -34,6 +55,12 @@ function Weather({ city = 'Paris' }) {
     fetchWeather();
   }, [city]); // Se déclenche à chaque changement de ville
 
+  const handleAddToFavorites = () => {
+    addFavoriteToStorage(city);
+    setIsFavorite(true);
+    window.dispatchEvent(new CustomEvent('favoritesUpdated'));
+  };
+
   // Affichage pendant le chargement
   if (loading) {
     return (
@@ -47,7 +74,7 @@ function Weather({ city = 'Paris' }) {
   if (error) {
     return (
       <div className="weather-card">
-        <div className="error"> Erreur : {error}</div>
+        <div className="error">Erreur : {error}</div>
       </div>
     );
   }
@@ -89,6 +116,14 @@ function Weather({ city = 'Paris' }) {
               <span className="detail-value">{weatherData.main.pressure} hPa</span>
             </div>
           </div>
+
+          <button
+            className={`favorite-btn ${isFavorite ? 'is-favorite' : ''}`}
+            onClick={handleAddToFavorites}
+            disabled={isFavorite}
+          >
+            {isFavorite ? '★ Déjà en favoris' : '☆ Ajouter aux favoris'}
+          </button>
         </>
       )}
     </div>

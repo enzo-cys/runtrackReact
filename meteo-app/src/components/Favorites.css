@@ -1,0 +1,92 @@
+.favorites-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.favorites-section h3 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.no-favorites {
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.favorites-list {
+  display: grid;
+  gap: 12px;
+}
+
+.favorite-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.favorite-city-btn {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 14px;
+  background: #f1f5f9;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  color: #0f172a;
+  text-align: left;
+  font-family: inherit;
+}
+
+.favorite-city-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+.favorite-city-btn:active {
+  transform: scale(0.98);
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 16px;
+  background: #fecaca;
+  border: 2px solid #fca5a5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #dc2626;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.remove-btn:hover {
+  background: #f87171;
+  border-color: #f87171;
+  color: white;
+}
+
+.remove-btn:active {
+  transform: scale(0.92);
+}
+
+@media (max-width: 480px) {
+  .favorites-section {
+    padding: 20px;
+  }
+
+  .favorites-section h3 {
+    font-size: 18px;
+  }
+}
