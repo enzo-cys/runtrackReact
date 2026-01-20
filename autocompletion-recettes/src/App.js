@@ -2,6 +2,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
+import SearchResults from './components/SearchResults';
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Route de recherche à compléter plus tard */}
+        <Route path="/search" element={<SearchResults />} />
       </Routes>
     </BrowserRouter>
   );
