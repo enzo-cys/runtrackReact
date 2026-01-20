@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import './SearchBar.css';
+import { addToHistory } from './SearchHistory';
 
 function SearchBar({ onSearch }) {
   const [city, setCity] = useState('');
 
   const handleSearch = () => {
     if (city.trim()) {
-      onSearch(city.trim());
+      const trimmedCity = city.trim();
+      addToHistory(trimmedCity); // Ajouter à l'historique
+      window.dispatchEvent(new CustomEvent('historyUpdated')); // Notifier les composants
+      onSearch(trimmedCity);
       setCity(''); // Réinitialiser le champ après la recherche
     }
   };

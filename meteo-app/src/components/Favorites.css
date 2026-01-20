@@ -3,8 +3,7 @@
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: 0 auto;
+  height: 100%;
 }
 
 .favorites-section h3 {
@@ -50,6 +49,7 @@
 .favorite-city-btn:hover {
   background: #e2e8f0;
   border-color: #cbd5e1;
+  transform: translateX(4px);
 }
 
 .favorite-city-btn:active {
@@ -72,8 +72,8 @@
 }
 
 .remove-btn:hover {
-  background: #f87171;
-  border-color: #f87171;
+  background: #ff0000;
+  border-color: #ff0000;
   color: white;
 }
 

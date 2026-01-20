@@ -3,6 +3,7 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import Weather from './components/Weather';
 import Favorites from './components/Favorites';
+import SearchHistory from './components/SearchHistory';
 
 function App() {
   const [searchedCity, setSearchedCity] = useState('Paris');
@@ -12,6 +13,10 @@ function App() {
   };
 
   const handleSelectFavorite = (city) => {
+    setSearchedCity(city);
+  };
+
+  const handleSelectHistory = (city) => {
     setSearchedCity(city);
   };
 
@@ -28,12 +33,18 @@ function App() {
 
       <section className="weather-section">
         <SearchBar onSearch={handleSearch} />
-        <Weather city={searchedCity} />
       </section>
 
-      <section className="weather-section">
-        <Favorites onSelectCity={handleSelectFavorite} currentCity={searchedCity} />
-      </section>
+      <div className="main-container">
+        <div className="weather-left">
+          <Weather city={searchedCity} />
+        </div>
+
+        <div className="sidebar-right">
+          <Favorites onSelectCity={handleSelectFavorite} currentCity={searchedCity} />
+          <SearchHistory onSelectCity={handleSelectHistory} />
+        </div>
+      </div>
     </main>
   );
 }

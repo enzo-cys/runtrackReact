@@ -38,4 +38,47 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  width: 100%;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  align-items: start;
+}
+
+.weather-left {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .sidebar-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-right {
+    grid-template-columns: 1fr;
+  }
 }
