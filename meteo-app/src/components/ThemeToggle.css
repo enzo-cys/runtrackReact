@@ -1,0 +1,48 @@
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, border-color 0.2s;
+  z-index: 1000;
+  color: #0f172a;
+  font-family: inherit;
+}
+
+.theme-toggle:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.theme-toggle:active {
+  transform: scale(0.98);
+}
+
+/* Style du bouton en mode sombre */
+body.dark-mode .theme-toggle {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background: #475569;
+  border-color: #64748b;
+}
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    top: 15px;
+    right: 15px;
+  }
+}

@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './Weather.css';
+import './WeatherAnimation.css';
 import { addFavoriteToStorage, getFavoritesFromStorage } from './Favorites';
+import { TemperatureUnitContext } from '../contexts/TemperatureUnitContext';
 
 function Weather({ city = 'Paris' }) {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { convertTemp, getUnitSymbol } = useContext(TemperatureUnitContext);
 
   useEffect(() => {
     // Vérifier si la ville actuelle est dans les favoris (normalized)
@@ -61,6 +64,30 @@ function Weather({ city = 'Paris' }) {
     window.dispatchEvent(new CustomEvent('favoritesUpdated'));
   };
 
+  // Fonction pour déterminer la classe d'animation selon la météo
+  const getWeatherAnimation = (weatherMain) => {
+    const weatherLower = weatherMain.toLowerCase();
+    if (weatherLower.includes('rain') || weatherLower.includes('drizzle')) {
+      return 'rain';
+    }
+    if (weatherLower.includes('snow')) {
+      return 'snow';
+    }
+    if (weatherLower.includes('cloud')) {
+      return 'clouds';
+    }
+    if (weatherLower.includes('clear')) {
+      return 'clear';
+    }
+    if (weatherLower.includes('thunder')) {
+      return 'thunderstorm';
+    }
+    if (weatherLower.includes('mist') || weatherLower.includes('fog') || weatherLower.includes('haze')) {
+      return 'mist';
+    }
+    return '';
+  };
+
   // Affichage pendant le chargement
   if (loading) {
     return (
@@ -84,6 +111,9 @@ function Weather({ city = 'Paris' }) {
     <div className="weather-card">
       {weatherData && (
         <>
+          {/* Animation basée sur la météo */}
+          <div className={`weather-animation ${getWeatherAnimation(weatherData.weather[0].main)}`}></div>
+          
           <div className="weather-header">
             <h2>{weatherData.name}, {weatherData.sys.country}</h2>
             <img
@@ -94,7 +124,7 @@ function Weather({ city = 'Paris' }) {
           </div>
 
           <div className="weather-temp">
-            <span className="temp-value">{Math.round(weatherData.main.temp)}°C</span>
+            <span className="temp-value">{Math.round(convertTemp(weatherData.main.temp))}{getUnitSymbol()}</span>
             <p className="weather-description">{weatherData.weather[0].description}</p>
           </div>
 
@@ -109,7 +139,7 @@ function Weather({ city = 'Paris' }) {
             </div>
             <div className="detail-item">
               <span className="detail-label">Ressenti</span>
-              <span className="detail-value">{Math.round(weatherData.main.feels_like)}°C</span>
+              <span className="detail-value">{Math.round(convertTemp(weatherData.main.feels_like))}{getUnitSymbol()}</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Pression</span>

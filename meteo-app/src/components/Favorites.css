@@ -4,12 +4,22 @@
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   height: 100%;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .favorites-section {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 .favorites-section h3 {
   margin: 0 0 16px;
   font-size: 20px;
   color: #0f172a;
+}
+
+body.dark-mode .favorites-section h3 {
+  color: #f1f5f9;
 }
 
 .no-favorites {
@@ -46,10 +56,21 @@
   font-family: inherit;
 }
 
+body.dark-mode .favorite-city-btn {
+  background: #3f4c5e;
+  border-color: #4a5568;
+  color: #f1f5f9;
+}
+
 .favorite-city-btn:hover {
   background: #e2e8f0;
   border-color: #cbd5e1;
   transform: translateX(4px);
+}
+
+body.dark-mode .favorite-city-btn:hover {
+  background: #4a5568;
+  border-color: #64748b;
 }
 
 .favorite-city-btn:active {

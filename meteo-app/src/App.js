@@ -4,6 +4,9 @@ import SearchBar from './components/SearchBar';
 import Weather from './components/Weather';
 import Favorites from './components/Favorites';
 import SearchHistory from './components/SearchHistory';
+import Forecast from './components/Forecast';
+import ThemeToggle from './components/ThemeToggle';
+import TemperatureToggle from './components/TemperatureToggle';
 
 function App() {
   const [searchedCity, setSearchedCity] = useState('Paris');
@@ -22,6 +25,10 @@ function App() {
 
   return (
     <main className="app-shell">
+      {/* Boutons de toggle flottants */}
+      <ThemeToggle />
+      <TemperatureToggle />
+      
       <section className="app-header">
         <p className="eyebrow">Application météo</p>
         <h1>Météo</h1>
@@ -38,6 +45,7 @@ function App() {
       <div className="main-container">
         <div className="weather-left">
           <Weather city={searchedCity} />
+          <Forecast city={searchedCity} />
         </div>
 
         <div className="sidebar-right">
