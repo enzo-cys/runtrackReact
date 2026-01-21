@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.Ma.Todolist {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.Ma.Todolist h1 {
+  color: #d32f2f;
+  margin: 0 0 20px 0;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+form input[type="text"] {
+  padding: 10px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form input[type="date"] {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+form button:hover {
+  background-color: #b71c1c;
+}
+
+.stats {
+  margin-bottom: 20px;
+  font-weight: bold;
+  display: flex;
+  gap: 30px;
+}
+
+.stats p {
+  margin: 0;
+}
+
+.filtres {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.filtres button {
+  padding: 10px 15px;
+  background-color: white;
+  border: 1px solid #d32f2f;
+  color: #d32f2f;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filtres button.actif {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.filtres button:hover {
+  background-color: #f5f5f5;
+}
+
+.filtres button.actif:hover {
+  background-color: #b71c1c;
+}
+
+.todolist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.todo-item {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.todo-item span {
+  flex: 1;
+  font-size: 15px;
+}
+
+.todo-item button {
+  padding: 6px 12px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.todo-item button:hover {
+  background-color: #b71c1c;
+}
+
+.Ma.Todolist > button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.Ma.Todolist > button:hover {
+  background-color: #555;
+}
