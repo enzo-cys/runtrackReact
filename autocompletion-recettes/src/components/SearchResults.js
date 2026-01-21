@@ -87,7 +87,18 @@ function SearchResults() {
       )}
 
       {!loading && !error && recipes.length > 0 && (
-        <div className="results-grid">
+        <div
+          className={
+            "results-grid" +
+            (recipes.length === 1
+              ? " single"
+              : recipes.length === 2
+              ? " two"
+              : recipes.length === 3
+              ? " three"
+              : "")
+          }
+        >
           {recipes.map((meal) => (
             <Link
               key={meal.idMeal}
