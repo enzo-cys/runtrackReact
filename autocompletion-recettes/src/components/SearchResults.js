@@ -8,6 +8,10 @@ function SearchResults() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedArea, setSelectedArea] = useState('');
+  const [favorites, setFavorites] = useState([]);
+  const [showFavOnly, setShowFavOnly] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -58,6 +62,34 @@ function SearchResults() {
     };
   }, [query]);
 
+  useEffect(() => {
+    const stored = localStorage.getItem('favorites');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) setFavorites(parsed);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }, []);
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) => {
+      const exists = prev.includes(id);
+      const next = exists ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem('favorites', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const filteredRecipes = recipes.filter((meal) => {
+    const matchCat = selectedCategory ? meal.strCategory === selectedCategory : true;
+    const matchArea = selectedArea ? meal.strArea === selectedArea : true;
+    const matchFav = showFavOnly ? favorites.includes(meal.idMeal) : true;
+    return matchCat && matchArea && matchFav;
+  });
+
   return (
     <div className="results-page">
       <div className="results-hero">
@@ -87,34 +119,82 @@ function SearchResults() {
       )}
 
       {!loading && !error && recipes.length > 0 && (
-        <div
-          className={
-            "results-grid" +
-            (recipes.length === 1
-              ? " single"
-              : recipes.length === 2
-              ? " two"
-              : recipes.length === 3
-              ? " three"
-              : "")
-          }
-        >
-          {recipes.map((meal) => (
-            <Link
-              key={meal.idMeal}
-              to={`/recipe/${meal.idMeal}`}
-              className="recipe-card"
+        <>
+          <div className="filters-bar">
+            <div className="filter-group">
+              <label>Catégorie</label>
+              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                <option value="">Toutes</option>
+                {Array.from(new Set(recipes.map(r => r.strCategory).filter(Boolean))).map((cat) => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Origine</label>
+              <select value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)}>
+                <option value="">Toutes</option>
+                {Array.from(new Set(recipes.map(r => r.strArea).filter(Boolean))).map((area) => (
+                  <option key={area} value={area}>{area}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group inline">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={showFavOnly}
+                  onChange={(e) => setShowFavOnly(e.target.checked)}
+                />
+                &nbsp;Favoris uniquement
+              </label>
+            </div>
+          </div>
+
+          {filteredRecipes.length === 0 ? (
+            <div className="state-message">Aucun résultat pour ces filtres.</div>
+          ) : (
+            <div
+              className={
+                "results-grid" +
+                (filteredRecipes.length === 1
+                  ? " single"
+                  : filteredRecipes.length === 2
+                  ? " two"
+                  : filteredRecipes.length === 3
+                  ? " three"
+                  : "")
+              }
             >
-              <div className="recipe-info">
-                <h3>{meal.strMeal}</h3>
-                <p className="recipe-meta">{meal.strCategory || 'Sans catégorie'}</p>
-              </div>
-              <div className="recipe-thumb">
-                <img src={meal.strMealThumb} alt={meal.strMeal} loading="lazy" />
-              </div>
-            </Link>
-          ))}
-        </div>
+              {filteredRecipes.map((meal) => (
+                <Link
+                  key={meal.idMeal}
+                  to={`/recipe/${meal.idMeal}`}
+                  className="recipe-card"
+                >
+                  <button
+                    type="button"
+                    className={`fav-btn${favorites.includes(meal.idMeal) ? ' active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorite(meal.idMeal);
+                    }}
+                    aria-label="Ajouter aux favoris"
+                  >
+                    {favorites.includes(meal.idMeal) ? '❤' : '♡'}
+                  </button>
+                  <div className="recipe-info">
+                    <h3>{meal.strMeal}</h3>
+                    <p className="recipe-meta">{meal.strCategory || 'Sans catégorie'}</p>
+                  </div>
+                  <div className="recipe-thumb">
+                    <img src={meal.strMealThumb} alt={meal.strMeal} loading="lazy" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

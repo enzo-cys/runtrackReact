@@ -8,6 +8,7 @@ function RecipeDetail() {
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     let ignore = false;
@@ -48,6 +49,45 @@ function RecipeDetail() {
       controller.abort();
     };
   }, [id]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('favorites');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) setFavorites(parsed);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }, []);
+
+  const toggleFavorite = (mealId) => {
+    setFavorites((prev) => {
+      const exists = prev.includes(mealId);
+      const next = exists ? prev.filter((x) => x !== mealId) : [...prev, mealId];
+      localStorage.setItem('favorites', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: meal?.strMeal, url });
+      } catch (e) {
+        /* ignore cancel */
+      }
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+      alert('Lien copié dans le presse-papier');
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   const getIngredients = (mealData) => {
     const ingredients = [];
@@ -94,6 +134,16 @@ function RecipeDetail() {
       <div className="detail-header">
         <div className="detail-text">
           <h1>{meal.strMeal}</h1>
+          <div className="detail-actions">
+            <button
+              className={`fav-btn${favorites.includes(meal.idMeal) ? ' active' : ''}`}
+              onClick={() => toggleFavorite(meal.idMeal)}
+            >
+              {favorites.includes(meal.idMeal) ? '❤ Favori' : '♡ Ajouter aux favoris'}
+            </button>
+            <button className="ghost-btn" onClick={handleShare}>Partager</button>
+            <button className="ghost-btn" onClick={handlePrint}>Imprimer</button>
+          </div>
           <p className="detail-meta">Catégorie : {meal.strCategory || 'N/A'}</p>
           <p className="detail-meta">Origine : {meal.strArea || 'N/A'}</p>
         </div>
