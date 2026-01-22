@@ -109,8 +109,10 @@ function RecipeDetail() {
   if (loading) {
     return (
       <div className="detail-page">
-        <div className="detail-state">
-          <span className="loader" /> Chargement de la recette…
+        <div className="detail-container">
+          <div className="detail-state">
+            <span className="loader" /> Chargement de la recette…
+          </div>
         </div>
       </div>
     );
@@ -119,8 +121,10 @@ function RecipeDetail() {
   if (error || !meal) {
     return (
       <div className="detail-page">
-        <div className="detail-state error" role="alert">{error || 'Recette introuvable.'}</div>
-        <button className="back-btn" onClick={handleBack}>Retour aux résultats</button>
+        <div className="detail-container">
+          <div className="detail-state error" role="alert">{error || 'Recette introuvable.'}</div>
+          <button className="back-btn" onClick={handleBack}>Retour aux résultats</button>
+        </div>
       </div>
     );
   }
@@ -129,25 +133,26 @@ function RecipeDetail() {
 
   return (
     <div className="detail-page">
-      <button className="back-btn" onClick={handleBack}>Retour aux résultats</button>
+      <div className="detail-container">
+        <button className="back-btn" onClick={handleBack}>Retour aux résultats</button>
 
       <div className="detail-header">
         <div className="detail-text">
           <h1>{meal.strMeal}</h1>
+          <p className="detail-meta">Catégorie : {meal.strCategory || 'N/A'}</p>
+          <p className="detail-meta">Origine : {meal.strArea || 'N/A'}</p>
           <div className="detail-actions">
-            <button
-              className={`fav-btn${favorites.includes(meal.idMeal) ? ' active' : ''}`}
-              onClick={() => toggleFavorite(meal.idMeal)}
-            >
-              {favorites.includes(meal.idMeal) ? '❤ Favori' : '♡ Ajouter aux favoris'}
-            </button>
             <button className="ghost-btn" onClick={handleShare}>Partager</button>
             <button className="ghost-btn" onClick={handlePrint}>Imprimer</button>
           </div>
-          <p className="detail-meta">Catégorie : {meal.strCategory || 'N/A'}</p>
-          <p className="detail-meta">Origine : {meal.strArea || 'N/A'}</p>
         </div>
         <div className="detail-image">
+          <button
+            className={`fav-btn${favorites.includes(meal.idMeal) ? ' active' : ''}`}
+            onClick={() => toggleFavorite(meal.idMeal)}
+          >
+            {favorites.includes(meal.idMeal) ? '❤' : '♡'}
+          </button>
           <img src={meal.strMealThumb} alt={meal.strMeal} />
         </div>
       </div>
@@ -166,6 +171,7 @@ function RecipeDetail() {
         <h2>Instructions</h2>
         <p className="instructions">{meal.strInstructions || 'Aucune instruction disponible.'}</p>
       </section>
+      </div>
     </div>
   );
 }
